@@ -1,0 +1,8 @@
+<h2>Atualizando veiculo {{ veiculo }}</h2>
+
+<form action="{% url 'core_atualiza_veiculo' veiculo.id %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">atualizar</button>
+</form>
+<a href="{% url 'core_delete_veiculo' veiculo.id %}">deletar</a>

@@ -1,0 +1,14 @@
+<h2>lista_rotativo</h2>
+
+<ul>{% for rotativo in rotativos%}
+        <li>
+            <a href="{% url 'core_atualiza_movRotativo' rotativo.id %}">{{rotativo}}</a> 
+        </li>
+    {% endfor %}
+</ul>
+
+<form action="{% url 'core_cadastra_movRotativo' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">cadastrar</button>
+</form>
