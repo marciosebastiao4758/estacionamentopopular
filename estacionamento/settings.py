@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
+from pathlib import Path, os
 from decouple import config
-from dj_database_url import parser as dburl
+from dj_database_url import parse as dburl
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'estacionamento.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-default_dburl = 'sqlite///' + os.path.join(BASE_DIR, 'db.sqlite3')
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 DATABASES = {
     'default': config('DATABASE_URL', default=default_dburl, cast=dburl), 
 }
