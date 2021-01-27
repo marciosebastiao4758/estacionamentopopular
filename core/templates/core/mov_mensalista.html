@@ -1,16 +1,78 @@
-<h2>mov_mensalista</h2>
+{% extends 'base.html' %}
+{% load bootstrap %}
 
-<ul>{% for mov_mensalista in mov_mensalistas %}
-    <li>
-        <a href="{% url 'core_atualiza_movMensalista' mov_mensalista.id %}"> 
-            {{mov_mensalista.mensalista}}  {{mov_mensalista.dt_pgto}}
-        </a>
+{% block menu %} 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link " href="{% url 'core_home' %}">Home</a>
     </li>
-    {% endfor %}
-</ul>
+    <li class="nav-item dropdown">
+    <li class="nav-item active dropdown">
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" 
+            role="button" aria-haspopup="true" aria-expanded="false">Servicos</a>
+        <div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url 'core_lista_pessoas' %}">Pessoas</a>
+        <a class="dropdown-item" href="{% url 'core_lista_veiculos' %}">Veiculos</a>
+        <a class="dropdown-item" href="{% url 'core_lista_rotativo' %}">Rotativo</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="{% url 'core_lista_mensalista' %}">Mensalistas</a>
+        <a class="dropdown-item active" href="{% url 'core_lista_mov_mensalista' %}">MovMensalista</a>
+        </div>
+    </li>
+    {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link disabled" href="">Ola, {{ user }}</a>
+        </li>
 
-<form action="{% url 'core_cadastra_movMensalista' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">cadastrar</button>
-</form>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+    {% endif %}     
+    
+</ul> 
+{% endblock %}
+
+{% block main %} 
+    <div class="row">
+        <div class="col-12">
+            <h2>Cadastra Movimento Mensalista</h2>        
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="{% url 'core_cadastra_movMensalista' %}" method="POST">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <button type="submit" class="btn btn-primary">cadastrar</button>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <h1>Lista Movimento Mensalista</h1>
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">mensalista</th>
+                    <th scope="col">Dt_pagamento</th>
+                    <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mensalista in mensalistas%}
+                    <tr>
+                    <th scope="row">{{ pessoa.id }}</th>
+                    <td>{{ mensalista.mensalista }}</td>
+                    <td>{{ mensalista.dt_pgto  }}</td>
+                    <td>{{ mensalista.total}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
